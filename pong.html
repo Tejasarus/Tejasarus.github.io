@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>PONG - By Tejas Shah</title>
+	<style>
+		body 
+        {
+			margin: 0;
+			padding: 0;
+			font-family: Arial, sans-serif;
+		}
+
+		h1 
+        {
+			text-align: center;
+			margin: 20px 0;
+		}
+
+		.slider-container 
+        {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin: 30px;
+		}
+
+		.slider 
+        {
+			width: 300px;
+			margin: 0 20px;
+		}
+
+		.slider input[type="range"] 
+        {
+            -webkit-appearance: none;
+			width: 100%;
+			height: 20px;
+			background: #12b5f5;
+			outline: none;
+			opacity: 0.7;
+			-webkit-transition: opacity 0.2s;
+			transition: opacity 0.2s;
+		}
+
+		.slider input[type="range"]::-webkit-slider-thumb 
+        {
+			-webkit-appearance: none;
+			appearance: none;
+			width: 20px;
+			height: 20px;
+			background: #000000;
+			cursor: pointer;
+		}
+
+
+	</style>
+
+<!-- Putting everything together here -->
+</head>
+<body>
+	<h1>PONG</h1>
+	<div class="slider-container">
+		<div class="slider">
+			<label for="slider1">Player 1:</label>
+			<input type="range" id="slider1" name="slider1" min="0" max="300" value="150"> 
+		</div>
+		<div class="slider">
+			<label for="slider2">Player 2:</label>
+			<input type="range" id="slider2" name="slider2" min="0" max="300" value="150">
+		</div>
+	</div>
+</body>
+</html>
