@@ -13,45 +13,50 @@
 		h1 
         {
 			text-align: center;
-			margin: 20px 0;
+			margin: 50px;
 		}
 
-		.slider-container 
+		h1 
+        {
+			text-align: center;
+			margin: 30px;
+		}
+
+		.slider-box 
         {
 			display: flex;
+			flex-direction: column;
 			align-items: center;
-			justify-content: center;
-			margin: 30px;
+			justify-content: space-around;
+			border-radius: 40px;
+			margin: 200px;
+			height: 50vh;
 		}
 
 		.slider 
         {
-			width: 300px;
-			margin: 0 20px;
+			width: 200px;
+			margin: 0 50px;
+			height: 100%;
 		}
 
 		.slider input[type="range"] 
         {
             -webkit-appearance: none;
-			width: 100%;
+			width: 30rem;
 			height: 20px;
-			background: #12b5f5;
-			outline: none;
-			opacity: 0.7;
-			-webkit-transition: opacity 0.2s;
-			transition: opacity 0.2s;
+			background: #000000;
+			padding: 10rem 0;
 		}
 
 		.slider input[type="range"]::-webkit-slider-thumb 
         {
+            width: 9rem;
+			height: 9rem;
 			-webkit-appearance: none;
-			appearance: none;
-			width: 20px;
-			height: 20px;
-			background: #000000;
-			cursor: pointer;
+			background: #0000ff;
+			border-radius: 9999px;
 		}
-
 
 	</style>
 
@@ -59,15 +64,88 @@
 </head>
 <body>
 	<h1>PONG</h1>
-	<div class="slider-container">
+	<h2>Slide the slider to control the paddles</h2>
+	<div class="slider-box">
+		
 		<div class="slider">
 			<label for="slider1">Player 1:</label>
 			<input type="range" id="slider1" name="slider1" min="0" max="300" value="150"> 
 		</div>
+
 		<div class="slider">
 			<label for="slider2">Player 2:</label>
 			<input type="range" id="slider2" name="slider2" min="0" max="300" value="150">
 		</div>
 	</div>
+
+	<script>
+		const slider1 = document.querySelector('#slider1');
+
+		slider1.addEventListener('input', () => {
+		const value1 = slider1.value;
+		
+
+		const data = { val1: value1};
+
+		const url = 'https://example.com/api/'; 
+
+		fetch(url, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(data)
+		})
+		.then(response => {
+			if (!response.ok) {
+			throw new Error('Network response was not ok');
+			}
+			return response.json();
+		})
+		.then(data => {
+			console.log('Server response:', data);
+		})
+		.catch(error => {
+			console.error('Error sending POST request:', error);
+		});
+
+		});
+
+		const slider2 = document.querySelector('#slider2');
+
+		slider1.addEventListener('input', () => {
+		const value2 = slider2.value;
+		
+
+		const data = { val2: value2};
+
+		const url = 'https://example.com/api/'; 
+
+		fetch(url, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(data)
+		})
+		.then(response => 
+		{
+			if (!response.ok) 
+			{
+			throw new Error('Network response was not ok');
+			}
+			return response.json();
+		})
+		.then(data => {
+			console.log('Server response:', data);
+		})
+		.catch(error => {
+			console.error('Error sending POST request:', error);
+		});
+
+		});
+
+	</script>
+
 </body>
 </html>
