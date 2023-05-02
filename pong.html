@@ -1,28 +1,102 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <title>Random Number Generator</title>
+	<title>PONG - By Tejas Shah</title>
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+			font-family: Arial, sans-serif;
+		}
+
+		h1 {
+			text-align: center;
+			margin: 50px;
+		}
+
+		h1 {
+			text-align: center;
+			margin: 30px;
+		}
+
+		.slider-box {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: space-around;
+			border-radius: 40px;
+			margin: 200px;
+			height: 50vh;
+		}
+
+		.slider {
+			width: 200px;
+			margin: 0 50px;
+			height: 100%;
+		}
+
+		.slider input[type="range"] {
+			-webkit-appearance: none;
+			width: 30rem;
+			height: 20px;
+			background: #000000;
+			padding: 10rem 0;
+		}
+
+		.slider input[type="range"]::-webkit-slider-thumb {
+			width: 9rem;
+			height: 9rem;
+			-webkit-appearance: none;
+			background: #536651;
+			border-radius: 9999px;
+		}
+	</style>
 </head>
 <body>
-  <h1>Random Number Generator</h1>
-  <p>Click the button to generate a random number:</p>
-  <button onclick="generateRandomNumber()">Generate Number</button>
-  <p id="result"></p>
+	<h1>PONG</h1>
+	<h2>Slide the slider to control the paddles</h2>
+	<div class="slider-box">
+		<div class="slider">
+			<label for="slider1">Player 1:</label>
+			<input type="range" id="slider1" name="slider1" min="0" max="300" value="150" oninput="sendData()"> 
+		</div>
 
-  <script>
-    function generateRandomNumber() {
-      // Generate a random number between 1 and 100
-      var randomNumber = Math.floor(Math.random() * 100) + 1;
-      // Display the random number on the webpage
-      document.getElementById("result").innerHTML = "Random Number: " + randomNumber;
-      
-      // Send the random number to the Raspberry Pi with ngrok
-      var xhr = new XMLHttpRequest();
-      xhr.open("POST", "https://1cd3-2600-6c51-47f0-83c0-00-19e7.ngrok-free.app/api");
-      xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-      xhr.send(JSON.stringify({number: randomNumber}));
-    }
-  </script>
+		<div class="slider">
+			<label for="slider2">Player 2:</label>
+			<input type="range" id="slider2" name="slider2" min="0" max="300" value="150" oninput="sendData()">
+		</div>
+	</div>
+
+	<script>
+		const slider1 = document.querySelector('#slider1');
+		const slider2 = document.querySelector('#slider2');
+
+		function sendData() {
+			const value1 = slider1.value;
+			const value2 = slider2.value;
+			const data = { val1: value1, val2: value2 };
+			const url = 'https://1cd3-2600-6c51-47f0-83c0-00-19e7.ngrok-free.app/api'; // replace with your Raspberry Pi's IP address and port number
+			fetch(url, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(data)
+			})
+			.then(response => {
+				if (!response.ok) {
+					throw new Error('Network response was not ok');
+				}
+				return response.text();
+			})
+			.then(data => {
+				console.log('Server response:', data);
+			})
+			.catch(error => {
+				console.error('Error sending POST request:', error);
+			});
+		}
+	</script>
+
 </body>
 </html>
