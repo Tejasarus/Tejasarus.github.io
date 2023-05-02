@@ -82,20 +82,20 @@
 		const slider1 = document.querySelector('#slider1');
 		const slider2 = document.querySelector('#slider2');
 
-		slider1.addEventListener('input', () => {
+		slider1.addEventListener('input1', () => {
 			const value1 = slider1.value;
 			const data = { val1: value1 };
 			sendData(data);
 		});
 
-		slider2.addEventListener('input', () => {
+		slider2.addEventListener('input2', () => {
 			const value2 = slider2.value;
 			const data = { val2: value2 };
 			sendData(data);
 		});
 
 		function sendData(data) {
-			const url = 'http://<your-raspberry-pi-ip-address>:5000/update'; // replace with your Raspberry Pi's IP address and port number
+			const url = 'http://192.168.1.200:5000/update'; // replace with your Raspberry Pi's IP address and port number
 			fetch(url, {
 				method: 'POST',
 				headers: {
