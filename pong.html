@@ -3,27 +3,23 @@
 <head>
 	<title>PONG - By Tejas Shah</title>
 	<style>
-		body 
-        {
+		body {
 			margin: 0;
 			padding: 0;
 			font-family: Arial, sans-serif;
 		}
 
-		h1 
-        {
+		h1 {
 			text-align: center;
 			margin: 50px;
 		}
 
-		h1 
-        {
+		h1 {
 			text-align: center;
 			margin: 30px;
 		}
 
-		.slider-box 
-        {
+		.slider-box {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
@@ -33,48 +29,41 @@
 			height: 50vh;
 		}
 
-		.slider 
-        {
+		.slider {
 			width: 200px;
 			margin: 0 50px;
 			height: 100%;
 		}
 
-		.slider input[type="range"] 
-        {
-            -webkit-appearance: none;
+		.slider input[type="range"] {
+			-webkit-appearance: none;
 			width: 30rem;
 			height: 20px;
 			background: #000000;
 			padding: 10rem 0;
 		}
 
-		.slider input[type="range"]::-webkit-slider-thumb 
-        {
-            width: 9rem;
+		.slider input[type="range"]::-webkit-slider-thumb {
+			width: 9rem;
 			height: 9rem;
 			-webkit-appearance: none;
-			background: #0000ff;
+			background: #28cc15;
 			border-radius: 9999px;
 		}
-
 	</style>
-
-<!-- Putting everything together here -->
 </head>
 <body>
 	<h1>PONG</h1>
 	<h2>Slide the slider to control the paddles</h2>
 	<div class="slider-box">
-		
 		<div class="slider">
 			<label for="slider1">Player 1:</label>
-			<input type="range" id="slider1" name="slider1" min="0" max="300" value="150"> 
+			<input type="range" id="slider1" name="slider1" min="0" max="300" value="150" oninput="sendData()"> 
 		</div>
 
 		<div class="slider">
 			<label for="slider2">Player 2:</label>
-			<input type="range" id="slider2" name="slider2" min="0" max="300" value="150">
+			<input type="range" id="slider2" name="slider2" min="0" max="300" value="150" oninput="sendData()">
 		</div>
 	</div>
 
@@ -82,20 +71,11 @@
 		const slider1 = document.querySelector('#slider1');
 		const slider2 = document.querySelector('#slider2');
 
-		slider1.addEventListener('input1', () => {
+		function sendData() {
 			const value1 = slider1.value;
-			const data = { val1: value1 };
-			sendData(data);
-		});
-
-		slider2.addEventListener('input2', () => {
 			const value2 = slider2.value;
-			const data = { val2: value2 };
-			sendData(data);
-		});
-
-		function sendData(data) {
-			const url = 'http://192.168.1.200:5000/update'; // replace with your Raspberry Pi's IP address and port number
+			const data = { val1: value1, val2: value2 };
+			const url = 'http://192.168.1.200:5000/api'; // replace with your Raspberry Pi's IP address and port number
 			fetch(url, {
 				method: 'POST',
 				headers: {
@@ -107,7 +87,7 @@
 				if (!response.ok) {
 					throw new Error('Network response was not ok');
 				}
-				return response.json();
+				return response.text();
 			})
 			.then(data => {
 				console.log('Server response:', data);
