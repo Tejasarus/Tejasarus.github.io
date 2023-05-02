@@ -16,6 +16,12 @@
       var randomNumber = Math.floor(Math.random() * 100) + 1;
       // Display the random number on the webpage
       document.getElementById("result").innerHTML = "Random Number: " + randomNumber;
+      
+      // Send the random number to the Raspberry Pi with ngrok
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "https://1cd3-2600-6c51-47f0-83c0-00-19e7.ngrok-free.app/api");
+      xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      xhr.send(JSON.stringify({number: randomNumber}));
     }
   </script>
 </body>
