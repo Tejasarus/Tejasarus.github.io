@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Smart Home</title>
+  </head>
+  <body>
+    <h1>Smart Home</h1>
+
+    <style>
+	
+	  button 
+	  {
+        touch-action: manipulation;
+        
+      }
+	  button
+	  {
+		height:200px;
+    	width:400px;
+		font-size:100px;
+	  }
+	  #light_text 
+	  {
+		font-size: 36px;
+		color: red;
+      }
+	  #garage_text 
+	  {
+		font-size: 36px;
+		color: red;
+      }
+	  #door_text 
+	  {
+		font-size: 36px;
+		color: red;
+      }
+    </style>
+    
+	<h4>Lights</h4>
+	<div id="light_text">Off</div>
+	<button id="on1">on</button>
+    <button id="off1">off</button>
+
+    
+	<h4>Door Lock</h4>
+	<div id="door_text">Off</div>
+    <button id="unlock1">Unlock</button>
+    <button id="lock1">Lock</button>
+
+
+	<h4>Garage Door</h4>
+	<div id="garage_text">Off</div>
+    <button id="unlock2">Unlock</button>
+    <button id="lock2">Lock</button>
+
+	
+	<h4>Temperature</h4>
+	<div id="value">75</div>
+	<div id="value2">75</div>
+	<button id="increment">up</button>
+	<button id="decrement">down</button>
+
+  <h4>Send current status via email</h4>
+  <button id="email_text">Email Me</button>
+
+    <script>
+		var url = 'http://192.168.1.200:5000/receive'
+		let actual_temp = 0;
+		let desired_temp = 75;
+		const valueElement = document.getElementById('value');
+		const textElement1 = document.getElementById('light_text');
+		const textElement2 = document.getElementById('door_text');
+		const textElement3 = document.getElementById('garage_text');
+		//temp sensor
+		function temp_up() 
+		{
+			desired_temp++;
+			valueElement.textContent = desired_temp;
+			fetch(url,{method: 'POST', body: JSON.stringify({direction: 'tempu'})}).then(response => {
+          console.log('Response:', response);})
+		}
+
+		function temp_down() 
+		{
+			desired_temp--;
+			valueElement.textContent = desired_temp;
+			fetch(url,{method: 'POST', body: JSON.stringify({direction: 'tempd'})}).then(response => {
+          console.log('Response:', response);})
+		}
+
+		document.getElementById('increment').addEventListener('click', temp_up);
+		document.getElementById('decrement').addEventListener('click', temp_down);
+
+		//light switch
+		document.getElementById("on1").addEventListener("click", function()
+		{
+			fetch(url,{method: 'POST', body: JSON.stringify({direction: 'on1'})}).then(response => {
+          console.log('Response:', response);})
+		  textElement1.style.color = 'green';
+          textElement1.textContent = 'On';
+
+		});
+		
+		document.getElementById("off1").addEventListener("click", function() 
+		{
+			fetch(url,{method: 'POST', body: JSON.stringify({direction: 'off1'})}).then(response => {
+          console.log('Response:', response);})
+		  textElement1.style.color = 'red';
+          textElement1.textContent = 'Off';
+		});
+
+		//door lock
+		document.getElementById("unlock1").addEventListener("click", function() 
+		{
+			fetch(url,{method: 'POST', body: JSON.stringify({direction: 'unlock1'})}).then(response => {
+          console.log('Response:', response);})
+		  textElement2.style.color = 'green';
+          textElement2.textContent = 'On';
+		});
+		
+		document.getElementById("lock1").addEventListener("click", function() 
+		{
+			fetch(url,{method: 'POST', body: JSON.stringify({direction: 'lock1'})}).then(response => {
+          console.log('Response:', response);})
+		  textElement2.style.color = 'red';
+          textElement2.textContent = 'Off';
+		});
+
+		//garage door
+		document.getElementById("unlock2").addEventListener("click", function() 
+		{
+			fetch(url,{method: 'POST', body: JSON.stringify({direction: 'unlock2'})}).then(response => {
+          console.log('Response:', response);})
+		  textElement3.style.color = 'green';
+          textElement3.textContent = 'On';
+		});
+		
+		document.getElementById("lock2").addEventListener("click", function() 
+		{
+			fetch(url,{method: 'POST', body: JSON.stringify({direction: 'lock2'})}).then(response => {
+          console.log('Response:', response);})
+		  textElement3.style.color = 'red';
+          textElement3.textContent = 'Off';
+		});
+
+    //email
+    //light switch
+		document.getElementById("email_text").addEventListener("click", function()
+		{
+			fetch(url,{method: 'POST', body: JSON.stringify({direction: 'email'})}).then(response => {
+          console.log('Response:', response);})
+		});
+
+    </script>
+  </body>
+</html>

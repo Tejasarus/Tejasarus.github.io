@@ -1,102 +1,66 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>PONG - By Tejas Shah</title>
-	<style>
-		body {
-			margin: 0;
-			padding: 0;
-			font-family: Arial, sans-serif;
-		}
+  <head>
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>PONG</title>
+  </head>
+  <body>
+    <h1>PONG</h1>
 
-		h1 {
-			text-align: center;
-			margin: 50px;
-		}
+    <style>
+	
+	  button 
+	  {
+        touch-action: manipulation;
+        
+      }
+	  button
+	  {
+		height:200px;
+    	width:200px;
+		font-size:100px;
+	  }
+    </style>
+    
+	<h4>Player 1</h4>
 
-		h1 {
-			text-align: center;
-			margin: 30px;
-		}
+	<button id="left1">left</button>
+    <button id="right1">right</button>
 
-		.slider-box {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: space-around;
-			border-radius: 40px;
-			margin: 200px;
-			height: 50vh;
-		}
+    
+	<h4>Player 2</h4>
 
-		.slider {
-			width: 200px;
-			margin: 0 50px;
-			height: 100%;
-		}
+    <button id="left2">left</button>
+    <button id="right2">right</button>
 
-		.slider input[type="range"] {
-			-webkit-appearance: none;
-			width: 30rem;
-			height: 20px;
-			background: #000000;
-			padding: 10rem 0;
-		}
+    <script>
+		var url = 'http://192.168.1.200:5000/receive'
 
-		.slider input[type="range"]::-webkit-slider-thumb {
-			width: 9rem;
-			height: 9rem;
-			-webkit-appearance: none;
-			background: #029ddb;
-			border-radius: 9999px;
-		}
-	</style>
-</head>
-<body>
-	<h1>PONG</h1>
-	<h2>Slide the slider to control the paddles</h2>
-	<div class="slider-box">
-		<div class="slider">
-			<label for="slider1">Player 1:</label>
-			<input type="range" id="slider1" name="slider1" min="0" max="300" value="150" oninput="sendData()"> 
-		</div>
+		document.getElementById("left1").addEventListener("click", function()
+		{
+			fetch(url,{method: 'POST', body: JSON.stringify({direction: 'left1'})}).then(response => {
+          console.log('Response:', response);})
+		});
+		
+		document.getElementById("right1").addEventListener("click", function() 
+		{
+			fetch(url,{method: 'POST', body: JSON.stringify({direction: 'right1'})}).then(response => {
+          console.log('Response:', response);})
+		});
 
-		<div class="slider">
-			<label for="slider2">Player 2:</label>
-			<input type="range" id="slider2" name="slider2" min="0" max="300" value="150" oninput="sendData()">
-		</div>
-	</div>
 
-	<script>
-		const slider1 = document.querySelector('#slider1');
-		const slider2 = document.querySelector('#slider2');
+		document.getElementById("left2").addEventListener("click", function() 
+		{
+			fetch(url,{method: 'POST', body: JSON.stringify({direction: 'left2'})}).then(response => {
+          console.log('Response:', response);})
+		});
+		
+		document.getElementById("right2").addEventListener("click", function() 
+		{
+			fetch(url,{method: 'POST', body: JSON.stringify({direction: 'right2'})}).then(response => {
+          console.log('Response:', response);})
+		});
 
-		function sendData() {
-			const value1 = slider1.value;
-			const value2 = slider2.value;
-			const data = { val1: value1, val2: value2 };
-			const url = 'https://35ac-2600-6c51-47f0-83c0-00-19e7.ngrok-free.app/api'; // replace with your Raspberry Pi's IP address and port number
-			fetch(url, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(data)
-			})
-			.then(response => {
-				if (!response.ok) {
-					throw new Error('Network response was not ok');
-				}
-				return response.text();
-			})
-			.then(data => {
-				console.log('Server response:', data);
-			})
-			.catch(error => {
-				console.error('Error sending POST request:', error);
-			});
-		}
-	</script>
-
-</body>
+    </script>
+  </body>
 </html>
